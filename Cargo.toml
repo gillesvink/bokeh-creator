@@ -1,7 +1,7 @@
 [package]
 name = "bokeh-creator"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 license = "EUPL-1.2"
 authors = ["Gilles Vink <gillesvink@noreply.codeberg.org>"]
 description = "Easy to use library to replicate real world lens kernels"
