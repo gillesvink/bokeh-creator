@@ -1,0 +1,31 @@
+[package]
+name = "bokeh-creator"
+version = "0.1.0"
+edition = "2021"
+license = "EUPL-1.2"
+authors = ["Gilles Vink <gillesvink@noreply.codeberg.org>"]
+description = "Easy to use library to replicate real world lens kernels"
+repository = "https://codeberg.org/gillesvink/bokeh-creator"
+documentation = "https://docs.rs/bokeh-creator"
+keywords = ["bokeh", "camera", "photography", "lens", "convolution"]
+categories = ["algorithms", "multimedia", "graphics"]
+
+[features]
+default = ["image"]
+rayon = ["dep:rayon", "image/rayon"]
+image = ["dep:image"]
+
+
+[dependencies]
+libnoise = ">=1.1.0, < 1.3"
+glam = { version = ">=0.30.0, < 0.31", default-features = false, features = [
+    "std",
+] }
+rayon = { version = ">=1.10.0, < 1.12", optional = true }
+image = { version = ">=0.25.0, < 0.26", optional = true }
+
+
+[dev-dependencies]
+assert_approx_eq = ">= 1.1.0, < 1.2"
+image-compare = ">=0.4.1, < 0.5"
+rstest = ">=0.25.0, < 0.26"

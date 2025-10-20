@@ -1,0 +1,20 @@
+{
+    "image": "docker.io/rust:1.90-trixie",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "streetsidesoftware.code-spell-checker",
+                "ms-vscode.cmake-tools",
+                "ms-vscode.cpptools",
+                "ms-vscode.cpptools-extension-pack",
+                "ms-vscode.cpptools-themes",
+                "rust-lang.rust-analyzer",
+                "xaver.clang-format",
+                "VisualStudioExptTeam.vscodeintellicode",
+                "charliermarsh.ruff",
+                "tamasfe.even-better-toml"
+            ]
+        }
+    },
+    "postCreateCommand": "curl -LsSf https://astral.sh/uv/install.sh | sh && rustup component add clippy"
+}
