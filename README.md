@@ -41,12 +41,12 @@ fn main() {
 
 ## Examples
 
-![1_expected.jpg](/test/images/1_expected.jpg) 
+![1_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/1_expected.jpg) 
 ```rust
 Settings::default()
 ```
 
-![2_expected.jpg](/test/images/2_expected.jpg) 
+![2_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/2_expected.jpg) 
 ```rust
 Settings {
     filter_type: FilterType::BLADE,
@@ -56,7 +56,7 @@ Settings {
 }
 ```
 
-![3_expected.jpg](/test/images/3_expected.jpg) 
+![3_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/3_expected.jpg) 
 ```rust
 Settings {
     filter_type: FilterType::BLADE,
@@ -67,7 +67,7 @@ Settings {
 ```
 
 
-![4_expected.jpg](/test/images/4_expected.jpg) 
+![4_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/4_expected.jpg) 
 ```rust
 Settings {
     aspect_ratio: 0.5,
@@ -75,7 +75,7 @@ Settings {
 }
 ```
 
-![5_expected.jpg](/test/images/5_expected.jpg) 
+![5_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/5_expected.jpg) 
 ```rust
 Settings {
     aspect_ratio: 2.0,
@@ -83,7 +83,7 @@ Settings {
 }
 ```
 
-![6_expected.jpg](/test/images/6_expected.jpg) 
+![6_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/6_expected.jpg) 
 ```rust
 Settings {
     ring_color: 0.5,
@@ -93,7 +93,7 @@ Settings {
 }
 ```
 
-![7_expected.jpg](/test/images/7_expected.jpg) 
+![7_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/7_expected.jpg) 
 ```rust
 Settings {
     noise: {
@@ -107,7 +107,7 @@ Settings {
 }
 ```
 
-![8_expected.jpg](/test/images/8_expected.jpg) 
+![8_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/8_expected.jpg) 
 ```rust
 Settings {
     noise: {
@@ -120,7 +120,7 @@ Settings {
 }
 ```
 
-![9_expected.jpg](/test/images/9_expected.jpg) 
+![9_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/9_expected.jpg) 
 ```rust
 Settings {
     noise: {
