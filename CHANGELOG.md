@@ -11,5 +11,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Other
 
-- Set version to 0.1.0 for automatic release
 - Include docs and fix images in readme to show up on crates.io
