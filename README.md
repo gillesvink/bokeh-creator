@@ -11,8 +11,6 @@ Simple library to replicate real world lens kernels written in Rust. Currently i
 Add this crate to your project by adding it in your `Cargo.toml`:
 ```bash
 cargo add bokeh-creator
-# or when using rayon for multithreaded rendering
-cargo add --features rayon
 ```
 
 The [Image](https://crates.io/crates/image) crate is optional, as there is a method to render when you specify coordinates only.
