@@ -1,5 +1,3 @@
-use glam::UVec2;
-
 /// Enum that contains the type of filter used for the bokeh.
 #[derive(PartialEq, Eq, Clone, Copy, Debug)]
 #[repr(C)]
@@ -46,8 +44,6 @@ impl Default for Noise {
 pub struct Settings {
     /// Type of filter to use for the bokeh effect
     pub filter_type: FilterType,
-    /// Resolution for rendering the bokeh
-    pub resolution: UVec2,
     /// Radius of the bokeh effect
     pub radius: f32,
     /// Color of the ring in the bokeh effect
@@ -77,7 +73,6 @@ impl Default for Settings {
         Settings {
             // default is just a natural looking bokeh
             filter_type: FilterType::DISC,
-            resolution: UVec2::new(256, 256),
             radius: 1.0,
             ring_color: 1.0,
             inner_color: 0.4,

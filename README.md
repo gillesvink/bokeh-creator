@@ -23,17 +23,15 @@ The [Image](https://crates.io/crates/image) crate is optional, as there is a met
 ```rust
 use bokeh_creator::{Renderer, Settings};
 use image::Rgba32FImage;
-use glam::UVec2;
 
 fn main() {
     let settings = Settings {
-        resolution: UVec2::new(256, 256),
         angle: 195.3,
         curvature: 0.1,
         ..Default::default()
     };
-    let renderer = Renderer::new(settings);    
-    let result: Rgba32FImage = renderer.render_image();
+    let mut result = Rgba32FImage::new(256, 256);
+    let renderer = Renderer::render_to_image(&mut result, settings);
     // Do whatever you need to do with the result :)
 }
 ```

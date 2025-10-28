@@ -1,14 +1,15 @@
-use crate::{
-    settings::{FilterType, Settings},
-    Noise,
-};
-use glam::{UVec2, Vec2};
-use libnoise::prelude::*;
-
+#[cfg(feature = "noise")]
+use crate::settings::Noise;
+use crate::settings::{FilterType, Settings};
+use glam::{USizeVec2, Vec2};
 #[cfg(feature = "image")]
 use image::{ImageBuffer, Pixel};
-#[cfg(feature = "rayon")]
-use rayon::prelude::*;
+#[cfg(feature = "noise")]
+use libnoise::prelude::*;
+use ndarray::ArrayViewMut3;
+
+use image_ndarray::prelude::*;
+use num_traits::AsPrimitive;
 
 /// Value of RAD, as we don't have a const for that in f32::consts unfortunately
 const RAD: f32 = 57.2957;
@@ -32,53 +33,51 @@ const RADIUS_NORMALIZER: f32 = 0.3;
 /// Make sure to create the settings first, then pass them to this
 /// object when calling `Renderer::new(settings);`
 ///
-///
 /// ### Rendering
 /// When not using any features, call the `render_pixel()` method for all coordinates
 /// in your image to fetch the result for each pixel.
 ///
-/// #### Image Feature
-/// If you've enabled the `image` feature, you can pass an image to `render_image`.
-/// This will automatically iterate over every pixel.
-///
-/// #### Rayon
-/// For multithreaded rendering, call the `par_image_render`.
-/// This will use all threads automatically as specified by rayon.
+/// Or provide your own ndarray where each value will be computed automatically with
+/// `Renderer::render_to_array`
 ///
 /// ### Example
 /// ```rust
 /// use bokeh_creator::{Renderer, Settings};
-/// use glam::UVec2;
+/// use glam::USizeVec2;
 ///
 /// let resolution = 64;
 /// let settings = Settings::default();
-/// let renderer = Renderer::new(settings);
+/// let renderer = Renderer::new(settings, [resolution, resolution].into());
 /// let mut image = vec![vec![0.0; resolution]; resolution];
 ///
 /// // this is not the most efficient way, its just to showcase basic image processing
 /// for (y, row) in image.iter_mut().enumerate() {
 ///     for (x, pixel) in row.iter_mut().enumerate() {
-///         *pixel = renderer.render_pixel(UVec2::new(x as u32, y as u32));
+///         *pixel = renderer.render_pixel(USizeVec2::new(x, y), 0);
 ///     }
 /// }
 /// ```
 pub struct Renderer {
     /// Settings specified to use for rendering
     settings: Settings,
+    /// Resolution of filter image
+    resolution: USizeVec2,
     /// Center of the image in x and y
     center: Vec2,
     /// Degrees between each blade
     blade_degree: f32,
     /// Radius of kernel image in pixels
     radius_px: f32,
+
+    #[cfg(feature = "noise")]
     /// Generator from libnoise to create noise with
     noise_generator: Fbm<2, Simplex<2>>,
 }
 
 impl Renderer {
     /// Create a new instance of the renderer with the specified settings.
-    pub fn new(settings: Settings) -> Self {
-        let center = settings.resolution.as_vec2() * 0.5;
+    pub fn new(settings: Settings, resolution: USizeVec2) -> Self {
+        let center = resolution.as_vec2() * 0.5;
         let blade_degree = Self::get_blade_degree(settings.blades);
 
         let radius_px = center * settings.radius - 1.0;
@@ -86,8 +85,10 @@ impl Renderer {
         Self {
             settings,
             center,
+            resolution,
             blade_degree,
             radius_px: radius_px.max_element(),
+            #[cfg(feature = "noise")]
             noise_generator: Self::get_noise_generator(settings.noise),
         }
     }
@@ -99,6 +100,7 @@ impl Renderer {
         radians * RAD + self.settings.angle
     }
 
+    #[cfg(feature = "noise")]
     /// Configure the noise generator
     ///
     /// TODO: could be improved by specifying settings in the Settings struct to configure the type of noise.
@@ -179,7 +181,9 @@ impl Renderer {
     }
 
     /// Calculate the value of both ring and inner color.
-    fn get_bokeh_value(&self, position: Vec2) -> f32 {
+    ///
+    /// TODO: implement channel support
+    fn get_bokeh_value(&self, position: Vec2, _channel: usize) -> f32 {
         let radius_multiplier = self.get_blade_radius_multiplier(position);
         let calculated_radius = f32::max(
             self.radius_px - ((self.radius_px / (self.settings.blades as f32)) * radius_multiplier),
@@ -194,21 +198,28 @@ impl Renderer {
         )
     }
 
-    /// Render a single pixel and include noise.
-    pub fn render_pixel(&self, position: UVec2) -> f32 {
+    /// Render a single pixel and include noise if the `noise` feature is enabled.
+    pub fn render_pixel(&self, position: USizeVec2, channel: usize) -> f32 {
         let offset_multiplier = Vec2::new(
             3.0 - f32::min(self.settings.aspect_ratio, 1.0) * 2.0,
             f32::max(self.settings.aspect_ratio, 1.0) * 2.0 - 1.0,
         );
         let coordinate = position.as_vec2() * offset_multiplier;
-        let mut bokeh = self.get_bokeh_value(coordinate);
+        let bokeh = self.get_bokeh_value(coordinate, channel);
         if self.settings.noise.intensity == 0.0 || self.settings.noise.size == 0.0 {
             return bokeh;
         }
+
+        self.apply_noise(position, offset_multiplier, bokeh)
+    }
+
+    #[cfg(feature = "noise")]
+    /// Apply noise to the bokeh value
+    fn apply_noise(&self, position: USizeVec2, offset_multiplier: Vec2, bokeh: f32) -> f32 {
         let frequency = 1.0 + (1.0 / (self.settings.noise.size * 0.01));
         let noise_sample_position =
             (position.as_vec2() - self.center) * offset_multiplier * frequency
-                / self.settings.resolution.as_vec2();
+                / self.resolution.as_vec2();
 
         let mut noise = self.noise_generator.sample([
             noise_sample_position.x as f64,
@@ -217,46 +228,39 @@ impl Renderer {
         noise = noise.clamp(-1.0, 1.0);
         noise = (noise + 1.0) * 0.5;
         noise = noise.powf(2.2);
-        noise *= bokeh;
-        bokeh = noise * self.settings.noise.intensity.clamp(0.0, 1.0)
-            + (bokeh * (1.0 - self.settings.noise.intensity.clamp(0.0, 1.0)));
+        noise * bokeh * self.settings.noise.intensity.clamp(0.0, 1.0)
+            + (bokeh * (1.0 - self.settings.noise.intensity.clamp(0.0, 1.0)))
+    }
 
+    #[cfg(not(feature = "noise"))]
+    /// Replacement for apply_noise if the feature is not enabled, doesn't do anything
+    fn apply_noise(&self, _: USizeVec2, _: Vec2, bokeh: f32) -> f32 {
         bokeh
     }
 
-    #[cfg(feature = "rayon")]
-    /// Render the bokeh for the provided image parallel.
-    pub fn par_render_image<P>(&self) -> ImageBuffer<P, Vec<f32>>
-    where
-        P: Pixel<Subpixel = f32> + Sync + std::marker::Send,
-    {
-        let mut image: ImageBuffer<P, Vec<f32>> =
-            ImageBuffer::new(self.settings.resolution.x, self.settings.resolution.y);
-        image.par_enumerate_pixels_mut().for_each(|(x, y, pixel)| {
-            let position = UVec2::new(x, y);
-            let value = self.render_pixel(position);
-            pixel
-                .channels_mut()
-                .copy_from_slice(&vec![value; P::CHANNEL_COUNT as usize]);
-        });
-        image
-    }
     #[cfg(feature = "image")]
     /// Render the bokeh for the provided image.
-    pub fn render_image<P>(&self) -> ImageBuffer<P, Vec<f32>>
+    pub fn render_to_image<P, T>(image: &mut ImageBuffer<P, Vec<T>>, settings: Settings)
     where
-        P: Pixel<Subpixel = f32> + Sync,
+        P: Pixel<Subpixel = T> + Sync,
+        T: Clone + Copy + NormalizedFloat<T> + AsPrimitive<f32> + AsPrimitive<f64> + Default,
     {
-        let mut image: ImageBuffer<P, Vec<f32>> =
-            ImageBuffer::new(self.settings.resolution.x, self.settings.resolution.y);
-        for (x, y, pixel) in image.enumerate_pixels_mut() {
-            let position = UVec2::new(x, y);
-            let value = self.render_pixel(position);
-            pixel
-                .channels_mut()
-                .copy_from_slice(&vec![value; P::CHANNEL_COUNT as usize]);
-        }
-        image
+        Self::render_to_array(settings, &mut image.as_ndarray_mut().view_mut());
+    }
+
+    pub fn render_to_array<T>(settings: Settings, target: &mut ArrayViewMut3<T>)
+    where
+        T: NormalizedFloat<T> + AsPrimitive<f32> + AsPrimitive<f64> + Default,
+    {
+        let resolution = USizeVec2::new(target.dim().1, target.dim().0);
+        let renderer = Self::new(settings, resolution);
+        target
+            .indexed_iter_mut()
+            .for_each(|((y, x, channel), value)| {
+                *value =
+                    T::from_f32_normalized(renderer.render_pixel(USizeVec2::new(x, y), channel))
+                        .unwrap_or_default()
+            });
     }
 }
 
@@ -379,13 +383,9 @@ mod tests {
             false => Rgba32FImage::new(256, 256),
         };
 
-        let render = Renderer::new(settings);
+        let mut result = Rgba32FImage::new(256, 256);
+        Renderer::render_to_image(&mut result, settings);
 
-        #[cfg(all(feature = "image", not(feature = "rayon")))]
-        let result: Rgba32FImage = { render.render_image() };
-
-        #[cfg(feature = "rayon")]
-        let result: Rgba32FImage = { render.par_render_image() };
         if !(expected.clone().exists()) {
             store_test_result(&result, expected);
         }
