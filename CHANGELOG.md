@@ -11,7 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Other
 
-- Remove rayon in Readme
 - Add support for no-std without noise and add ndarray support
 
 ## [0.1.2](https://codeberg.org/gillesvink/bokeh-creator/compare/v0.1.1...v0.1.2) - 2025-10-20
