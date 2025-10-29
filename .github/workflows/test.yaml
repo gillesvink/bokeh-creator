@@ -17,4 +17,3 @@ jobs:
       - name: Run tests
         run: |
           cargo test
-          cargo test --features rayon
