@@ -1,4 +1,4 @@
-[![Tests](https://github.com/gillesvink/bokeh-creator/actions/workflows/test.yaml/badge.svg)](https://github.com/gillesvink/bokeh-creator/actions/workflows/test.yaml) 
+[![Tests](https://ci.codeberg.org/api/badges/15491/status.svg)](https://ci.codeberg.org/repos/15491)
 [![License](https://img.shields.io/crates/l/bokeh-creator)](https://crates.io/crates/bokeh-creator) 
 [![Version](https://img.shields.io/crates/v/bokeh-creator)](https://crates.io/crates/bokeh-creator) 
 
