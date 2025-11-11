@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.4](https://codeberg.org/gillesvink/bokeh-creator/compare/v0.1.3...v0.1.4) - 2025-11-11
+
+### Other
+
+- Set libnoise to default features false to support wasm targets
+- Replace badge with woodpecker
+- Add test for woodpecker
+- Update .github/workflows/test.yaml
+
 ## [0.1.3](https://codeberg.org/gillesvink/bokeh-creator/compare/v0.1.2...v0.1.3) - 2025-10-28
 
 ### Other
