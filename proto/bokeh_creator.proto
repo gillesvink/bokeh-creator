@@ -1,0 +1,56 @@
+syntax = "proto2";
+
+package bokeh_creator.data;
+
+// Enum that contains the type of filter used for the bokeh.
+enum FilterType {
+  // Circular bokeh (basically same as curvature set to 1.0)
+  DISC = 0;
+  // Blade-based bokeh (for replicating camera blades)
+  BLADE = 1;
+}
+
+// Noise specific settings.
+//
+// These settings can help to add some artifacts to the kernel,
+// to replicate more natural-like bokeh's.
+message Noise {
+  // Size of the noise pattern
+  required float size = 1 [default = 0.1];
+  // Intensity of the noise
+  required float intensity = 2 [default = 0.25];
+  // Number of octaves for noise generation
+  required uint32 octaves = 3 [default = 7];
+  // Random seed for noise generation
+  required uint32 seed = 4 [default = 0];
+}
+
+// Data object that contains all bokeh settings.
+//
+// This object is used to specify the settings when rendering.
+message Settings {
+    // Type of filter to use for the bokeh effect
+    required FilterType filter_type = 1;
+    // Radius of the bokeh effect
+    required float radius = 2 [default = 1.0];
+    // Color of the ring in the bokeh effect
+    required float ring_color = 3 [default = 1.0];
+    // Color of the inner part of the bokeh effect
+    required float inner_color = 4 [default = 0.4];
+    // Size of the ring in the bokeh effect
+    required float ring_size = 5 [default = 0.1];
+    // Amount of blur applied to the outer part of the bokeh
+    required float outer_blur = 6 [default = 0.1];
+    // Amount of blur applied to the inner part of the bokeh
+    required float inner_blur = 7 [default = 0.05];
+    // Number of blades for blade-based bokeh filters
+    required uint32 blades = 8 [default = 5];
+    // Angle of the bokeh effect
+    required float angle = 9 [default = 0.0];
+    // Curvature of the bokeh effect
+    required float curvature = 10 [default = 0.5];
+    // Noise settings for the bokeh effect
+    required Noise noise = 11;
+    // Aspect ratio for the bokeh effect
+    required float aspect_ratio = 12 [default = 1.0];
+}

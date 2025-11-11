@@ -47,7 +47,7 @@ Settings::default();
 ```rust
 use bokeh_creator::{FilterType, Settings};
 Settings {
-    filter_type: FilterType::BLADE,
+    filter_type: FilterType::Blade.into(),
     angle: 195.3,
     curvature: 0.1,
     ..Default::default()
@@ -58,7 +58,7 @@ Settings {
 ```rust
 use bokeh_creator::{FilterType, Settings};
 Settings {
-    filter_type: FilterType::BLADE,
+    filter_type: FilterType::Blade.into(),
     angle: 90.0,
     blades: 15,
     ..Default::default()

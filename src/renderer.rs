@@ -1,6 +1,6 @@
 #[cfg(feature = "noise")]
-use crate::settings::Noise;
-use crate::settings::{FilterType, Settings};
+use crate::Noise;
+use crate::{FilterType, Settings};
 use glam::{USizeVec2, Vec2};
 #[cfg(feature = "image")]
 use image::{ImageBuffer, Pixel};
@@ -119,8 +119,8 @@ impl Renderer {
         blades_offset -= 0.5;
         blades_offset = blades_offset.abs();
 
-        let curvature = match self.settings.filter_type {
-            FilterType::DISC => 1.0,
+        let curvature = match self.settings.filter_type() {
+            FilterType::Disc => 1.0,
             _ => self.settings.curvature,
         };
 
@@ -173,7 +173,7 @@ impl Renderer {
     }
 
     /// Get degrees per blade
-    fn get_blade_degree(blades: i32) -> f32 {
+    fn get_blade_degree(blades: u32) -> f32 {
         if blades == 0 {
             return 0.0;
         }
@@ -267,7 +267,7 @@ impl Renderer {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::settings::Noise;
+    use crate::Noise;
     use image::{DynamicImage, Rgba32FImage};
     use image_compare::Algorithm;
     use rstest::rstest;
@@ -299,7 +299,7 @@ mod tests {
     #[case(Settings::default(), PathBuf::from("./test/images/1_expected.jpg"))]
     #[case(
         Settings {
-            filter_type: FilterType::BLADE,
+            filter_type: FilterType::Blade.into(),
             angle: 195.3,
             curvature: 0.1,
             ..Default::default()
@@ -308,7 +308,7 @@ mod tests {
     )]
     #[case(
         Settings {
-            filter_type: FilterType::BLADE,
+            filter_type: FilterType::Blade.into(),
             angle: 90.0,
             blades: 15,
             ..Default::default()

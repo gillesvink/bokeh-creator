@@ -2,8 +2,10 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 
 mod renderer;
-mod settings;
+mod datamodel {
+    include!(concat!(env!("OUT_DIR"), "/bokeh_creator.data.rs"));
+}
 
 // Re-exports for external use
+pub use crate::datamodel::*;
 pub use renderer::Renderer;
-pub use settings::{FilterType, Noise, Settings};

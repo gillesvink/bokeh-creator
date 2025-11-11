@@ -16,6 +16,8 @@ default = ["image", "noise"]
 noise = ["dep:libnoise", "std"]
 image = ["dep:image", "std", "image-ndarray/image"]
 std = ["ndarray/std"]
+serde = ["dep:serde"]
+compile-protobuf-src = ["dep:protobuf-src"]
 
 
 [dependencies]
@@ -27,6 +29,9 @@ ndarray = { version = ">=0.13.0", default-features = false }
 image = { version = ">=0.25.0, < 0.26", optional = true, default-features = false }
 image-ndarray = { version = "0.1.2", default-features = false }
 num-traits = { version = ">=0.2.0", default-features = false }
+prost = { version = ">=0.14, < 0.15" }
+prost-types = { version = ">=0.14, < 0.15"}
+serde = { version = ">=1.0, < 1.1", features = ["derive"], optional = true}
 
 [dev-dependencies]
 assert_approx_eq = ">= 1.1.0, < 1.2"
@@ -34,3 +39,7 @@ image = ">=0.25.0, < 0.26"
 image-compare = ">=0.4.1, < 0.5"
 image-ndarray = "0.1.2"
 rstest = ">=0.25.0, < 0.26"
+
+[build-dependencies]
+prost-build = "0.14.1"
+protobuf-src = { version = "2.1.1", optional = true }
