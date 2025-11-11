@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.5](https://codeberg.org/gillesvink/bokeh-creator/compare/v0.1.4...v0.1.5) - 2025-11-11
+
+### Other
+
+- Remove effect in docstring
+- Switch to protobuf and optionally use serde for structs
+
 ## [0.1.4](https://codeberg.org/gillesvink/bokeh-creator/compare/v0.1.3...v0.1.4) - 2025-11-11
 
 ### Other
