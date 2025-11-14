@@ -11,7 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Other
 
-- Merge branch 'main' of ssh://codeberg.org/gillesvink/bokeh-creator
 - Fix dependencies and add libm feature for backend selection of glam
 - Rename settings and renderer to BokehSettings and BokehRenderer for unique naming
 
