@@ -4,6 +4,7 @@ when:
     include: ["*.rs", "*.toml"]
 steps:
   test:
-    image: rust
+    image: rust:trixie
     commands:
+      - apt update && apt install -y protobuf-compiler
       - cargo test --release
