@@ -1,6 +1,6 @@
 syntax = "proto2";
 
-package bokeh_creator.data;
+package bokeh_creator;
 
 // Enum that contains the type of filter used for the bokeh.
 enum FilterType {
@@ -28,7 +28,7 @@ message Noise {
 // Data object that contains all bokeh settings.
 //
 // This object is used to specify the settings when rendering.
-message Settings {
+message BokehSettings {
     // Type of filter to use for the bokeh
     required FilterType filter_type = 1;
     // Radius of the bokeh

@@ -3,9 +3,9 @@
 
 mod renderer;
 mod datamodel {
-    include!(concat!(env!("OUT_DIR"), "/bokeh_creator.data.rs"));
+    include!(concat!(env!("OUT_DIR"), "/bokeh_creator.rs"));
 }
 
 // Re-exports for external use
 pub use crate::datamodel::*;
-pub use renderer::Renderer;
+pub use renderer::BokehRenderer;
