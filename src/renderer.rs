@@ -1,6 +1,6 @@
 #[cfg(feature = "noise")]
 use crate::Noise;
-use crate::{FilterType, BokehSettings};
+use crate::{FilterType, Settings};
 use glam::{USizeVec2, Vec2};
 #[cfg(feature = "image")]
 use image::{ImageBuffer, Pixel};
@@ -31,23 +31,23 @@ const RADIUS_NORMALIZER: f32 = 0.3;
 /// The object has three entry points (depending on the features enabled).
 ///
 /// Make sure to create the settings first, then pass them to this
-/// object when calling `BokehRenderer::new(settings);`
+/// object when calling `Renderer::new(settings);`
 ///
 /// ### Rendering
 /// When not using any features, call the `render_pixel()` method for all coordinates
 /// in your image to fetch the result for each pixel.
 ///
 /// Or provide your own ndarray where each value will be computed automatically with
-/// `BokehRenderer::render_to_array`
+/// `Renderer::render_to_array`
 ///
 /// ### Example
 /// ```rust
-/// use bokeh_creator::{BokehRenderer, BokehSettings};
+/// use bokeh_creator::{Renderer, Settings};
 /// use glam::USizeVec2;
 ///
 /// let resolution = 64;
-/// let settings = BokehSettings::default();
-/// let renderer = BokehRenderer::new(settings, [resolution, resolution].into());
+/// let settings = Settings::default();
+/// let renderer = Renderer::new(settings, [resolution, resolution].into());
 /// let mut image = vec![vec![0.0; resolution]; resolution];
 ///
 /// // this is not the most efficient way, its just to showcase basic image processing
@@ -57,9 +57,9 @@ const RADIUS_NORMALIZER: f32 = 0.3;
 ///     }
 /// }
 /// ```
-pub struct BokehRenderer {
+pub struct Renderer {
     /// Settings specified to use for rendering
-    settings: BokehSettings,
+    settings: Settings,
     /// Resolution of filter image
     resolution: USizeVec2,
     /// Center of the image in x and y
@@ -74,9 +74,9 @@ pub struct BokehRenderer {
     noise_generator: Fbm<2, Simplex<2>>,
 }
 
-impl BokehRenderer {
+impl Renderer {
     /// Create a new instance of the renderer with the specified settings.
-    pub fn new(settings: BokehSettings, resolution: USizeVec2) -> Self {
+    pub fn new(settings: Settings, resolution: USizeVec2) -> Self {
         let center = resolution.as_vec2() * 0.5;
         let blade_degree = Self::get_blade_degree(settings.blades);
 
@@ -240,7 +240,7 @@ impl BokehRenderer {
 
     #[cfg(feature = "image")]
     /// Render the bokeh for the provided image.
-    pub fn render_to_image<P, T>(image: &mut ImageBuffer<P, Vec<T>>, settings: BokehSettings)
+    pub fn render_to_image<P, T>(image: &mut ImageBuffer<P, Vec<T>>, settings: Settings)
     where
         P: Pixel<Subpixel = T> + Sync,
         T: Clone + Copy + NormalizedFloat<T> + AsPrimitive<f32> + AsPrimitive<f64> + Default,
@@ -248,7 +248,7 @@ impl BokehRenderer {
         Self::render_to_array(settings, &mut image.as_ndarray_mut().view_mut());
     }
 
-    pub fn render_to_array<T>(settings: BokehSettings, target: &mut ArrayViewMut3<T>)
+    pub fn render_to_array<T>(settings: Settings, target: &mut ArrayViewMut3<T>)
     where
         T: NormalizedFloat<T> + AsPrimitive<f32> + AsPrimitive<f64> + Default,
     {
@@ -296,9 +296,9 @@ mod tests {
     }
 
     #[rstest]
-    #[case(BokehSettings::default(), PathBuf::from("./test/images/1_expected.jpg"))]
+    #[case(Settings::default(), PathBuf::from("./test/images/1_expected.jpg"))]
     #[case(
-        BokehSettings {
+        Settings {
             filter_type: FilterType::Blade.into(),
             angle: 195.3,
             curvature: 0.1,
@@ -307,7 +307,7 @@ mod tests {
         PathBuf::from("./test/images/2_expected.jpg")
     )]
     #[case(
-        BokehSettings {
+        Settings {
             filter_type: FilterType::Blade.into(),
             angle: 90.0,
             blades: 15,
@@ -316,21 +316,21 @@ mod tests {
         PathBuf::from("./test/images/3_expected.jpg")
     )]
     #[case(
-        BokehSettings {
+        Settings {
             aspect_ratio: 0.5,
             ..Default::default()
         },
         PathBuf::from("./test/images/4_expected.jpg")
     )]
     #[case(
-        BokehSettings {
+        Settings {
             aspect_ratio: 2.0,
             ..Default::default()
         },
         PathBuf::from("./test/images/5_expected.jpg")
     )]
     #[case(
-        BokehSettings {
+        Settings {
             ring_color: 0.5,
             inner_color: 0.9,
             ring_size: 0.5,
@@ -339,7 +339,7 @@ mod tests {
         PathBuf::from("./test/images/6_expected.jpg")
     )]
     #[case(
-        BokehSettings {
+        Settings {
             noise: {
                 Noise {
                     size: 0.3,
@@ -352,7 +352,7 @@ mod tests {
         PathBuf::from("./test/images/7_expected.jpg")
     )]
     #[case(
-        BokehSettings {
+        Settings {
             noise: {
                 Noise {
                     intensity: 0.0,
@@ -364,7 +364,7 @@ mod tests {
         PathBuf::from("./test/images/8_expected.jpg")
     )]
     #[case(
-        BokehSettings {
+        Settings {
             noise: {
                 Noise {
                     seed: 30,
@@ -377,14 +377,14 @@ mod tests {
     )]
 
     /// Test result of kernel rendering
-    fn test_kernel(#[case] settings: BokehSettings, #[case] expected: PathBuf) {
+    fn test_kernel(#[case] settings: Settings, #[case] expected: PathBuf) {
         let expected_image = match expected.exists() {
             true => load_test_image(expected.clone()),
             false => Rgba32FImage::new(256, 256),
         };
 
         let mut result = Rgba32FImage::new(256, 256);
-        BokehRenderer::render_to_image(&mut result, settings);
+        Renderer::render_to_image(&mut result, settings);
 
         if !(expected.clone().exists()) {
             store_test_result(&result, expected);

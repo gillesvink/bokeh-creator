@@ -28,7 +28,7 @@ message Noise {
 // Data object that contains all bokeh settings.
 //
 // This object is used to specify the settings when rendering.
-message BokehSettings {
+message Settings {
     // Type of filter to use for the bokeh
     required FilterType filter_type = 1;
     // Radius of the bokeh

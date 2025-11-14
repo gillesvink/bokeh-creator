@@ -8,4 +8,4 @@ mod datamodel {
 
 // Re-exports for external use
 pub use crate::datamodel::*;
-pub use renderer::BokehRenderer;
+pub use renderer::Renderer;
