@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.12](https://codeberg.org/gillesvink/bokeh-creator/compare/v0.1.11...v0.1.12) - 2025-11-25
+
+### Other
+
+- release v0.1.11
+- Add renderer feature to optionally compile only datastructure
+
 ## [0.1.11](https://codeberg.org/gillesvink/bokeh-creator/compare/v0.1.10...v0.1.11) - 2025-11-25
 
 ### Other
