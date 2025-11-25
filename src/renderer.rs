@@ -249,6 +249,7 @@ impl Renderer {
         Self::render_to_array(settings, &mut image.as_ndarray_mut().view_mut());
     }
 
+    #[cfg(feature = "image")]
     pub fn render_to_array<T>(settings: Settings, target: &mut ArrayViewMut3<T>)
     where
         T: NormalizedFloat<T> + AsPrimitive<f32> + AsPrimitive<f64> + Default,
