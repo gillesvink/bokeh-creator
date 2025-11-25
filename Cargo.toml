@@ -17,8 +17,8 @@ renderer = ["dep:ndarray"]
 libm = ["glam/libm", "renderer"]
 noise = ["dep:libnoise", "std"]
 image = ["dep:image", "std", "dep:image-ndarray"]
-std = ["ndarray/std", "glam/default", "renderer"]
-serde = ["dep:serde"]
+std = ["ndarray/std", "glam/default", "renderer", "prost/std", "prost-types/std"]
+serde = ["dep:serde", "prost/derive"]
 compile-protobuf-src = ["dep:protobuf-src"]
 
 
@@ -30,8 +30,8 @@ ndarray = { version = "0.16", default-features = false, optional = true}
 image = { version = "0.25", optional = true, default-features = false }
 image-ndarray = { version = "0.1.5", features = ["image"], optional = true}
 num-traits = { version = "0.2", default-features = false }
-prost = { version = "0.14" }
-prost-types = { version = "0.14"}
+prost = { version = "0.14", default-features = false}
+prost-types = { version = "0.14", default-features = false}
 serde = { version = "1.0", features = ["derive"], optional = true}
 
 [dev-dependencies]
