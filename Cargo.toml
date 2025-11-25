@@ -13,8 +13,7 @@ categories = ["algorithms", "multimedia", "graphics"]
 
 [features]
 default = ["image", "noise"]
-renderer = ["dep:ndarray"]
-libm = ["glam/libm", "renderer"]
+renderer = ["dep:ndarray", "std", "dep:glam"]
 noise = ["dep:libnoise", "std"]
 image = ["dep:image", "std", "dep:image-ndarray"]
 std = ["ndarray/std", "glam/default", "renderer", "prost/std", "prost-types/std"]
@@ -25,7 +24,7 @@ compile-protobuf-src = ["dep:protobuf-src"]
 
 [dependencies]
 libnoise = { version = "1.1", default-features = false, optional = true }
-glam = { version = "0.30", default-features = false }
+glam = { version = "0.30", default-features = false, optional = true}
 ndarray = { version = "0.16", default-features = false, optional = true}
 image = { version = "0.25", optional = true, default-features = false }
 image-ndarray = { version = "0.1.5", features = ["image"], optional = true}
