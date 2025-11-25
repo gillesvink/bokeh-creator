@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.13](https://codeberg.org/gillesvink/bokeh-creator/compare/v0.1.12...v0.1.13) - 2025-11-25
+
+### Other
+
+- Fix test
+- Remove libm feature
+- Set prost to use no default features by default and optionally enable in std
+
 ## [0.1.12](https://codeberg.org/gillesvink/bokeh-creator/compare/v0.1.11...v0.1.12) - 2025-11-25
 
 ### Other
