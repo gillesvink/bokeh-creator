@@ -6,9 +6,9 @@ use glam::{USizeVec2, Vec2};
 use image::{ImageBuffer, Pixel};
 #[cfg(feature = "noise")]
 use libnoise::prelude::*;
-#[cfg(feature = "image")]
 use ndarray::ArrayViewMut3;
 
+#[cfg(feature = "image")]
 use image_ndarray::prelude::*;
 use num_traits::AsPrimitive;
 
