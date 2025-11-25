@@ -8,4 +8,5 @@ mod datamodel {
 
 // Re-exports for external use
 pub use crate::datamodel::*;
+#[cfg(feature = "renderer")]
 pub use renderer::Renderer;
