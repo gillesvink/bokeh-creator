@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.11](https://codeberg.org/gillesvink/bokeh-creator/compare/v0.1.10...v0.1.11) - 2025-11-25
+
+### Other
+
+- Add compile test and add render to array behind image feature gate
+
 ## [0.1.10](https://codeberg.org/gillesvink/bokeh-creator/compare/v0.1.9...v0.1.10) - 2025-11-25
 
 ### Other
