@@ -9,3 +9,4 @@ steps:
       - apt update && apt install -y protobuf-compiler
       - cargo build --release --no-default-features
       - cargo test --release
+      - cargo test --features documented
