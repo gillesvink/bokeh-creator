@@ -30,27 +30,27 @@ message Noise {
 // This object is used to specify the settings when rendering.
 message Settings {
     // Type of filter to use for the bokeh
-    required FilterType filter_type = 1;
+    required FilterType filter_type = 10;
     // Radius of the bokeh
-    required float radius = 2 [default = 1.0];
+    required float radius = 20 [default = 1.0];
     // Color of the ring in the bokeh
-    required float ring_color = 3 [default = 1.0];
+    required float ring_color = 30 [default = 1.0];
     // Color of the inner part of the bokeh
-    required float inner_color = 4 [default = 0.4];
+    required float inner_color = 40 [default = 0.4];
     // Size of the ring in the bokeh
-    required float ring_size = 5 [default = 0.1];
+    required float ring_size = 50 [default = 0.1];
     // Amount of blur applied to the outer part of the bokeh
-    required float outer_blur = 6 [default = 0.1];
+    required float outer_blur = 60 [default = 0.1];
     // Amount of blur applied to the inner part of the bokeh
-    required float inner_blur = 7 [default = 0.05];
+    required float inner_blur = 70 [default = 0.05];
     // Number of blades for blade-based bokeh filters
-    required uint32 blades = 8 [default = 5];
+    required uint32 blades = 80 [default = 5];
     // Angle of the bokeh
-    required float angle = 9 [default = 0.0];
+    required float angle = 90 [default = 0.0];
     // Curvature of the bokeh
-    required float curvature = 10 [default = 0.5];
+    required float curvature = 100 [default = 0.5];
     // Noise settings for the bokeh
-    required Noise noise = 11;
+    required Noise noise = 110;
     // Aspect ratio for the bokeh
-    required float aspect_ratio = 12 [default = 1.0];
+    required float aspect_ratio = 120 [default = 1.0];
 }

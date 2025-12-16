@@ -1,6 +1,6 @@
 [![Tests](https://ci.codeberg.org/api/badges/15491/status.svg)](https://ci.codeberg.org/repos/15491)
-[![License](https://img.shields.io/crates/l/bokeh-creator)](https://crates.io/crates/bokeh-creator) 
-[![Version](https://img.shields.io/crates/v/bokeh-creator)](https://crates.io/crates/bokeh-creator) 
+[![License](https://img.shields.io/crates/l/bokeh-creator)](https://crates.io/crates/bokeh-creator)
+[![Version](https://img.shields.io/crates/v/bokeh-creator)](https://crates.io/crates/bokeh-creator)
 
 
 # Bokeh Creator
@@ -37,13 +37,13 @@ fn main() {
 
 ## Examples
 
-![1_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/1_expected.jpg) 
+![1_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/1_expected.jpg)
 ```rust
 use bokeh_creator::Settings;
 Settings::default();
 ```
 
-![2_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/2_expected.jpg) 
+![2_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/2_expected.jpg)
 ```rust
 use bokeh_creator::{FilterType, Settings};
 Settings {
@@ -54,7 +54,7 @@ Settings {
 };
 ```
 
-![3_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/3_expected.jpg) 
+![3_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/3_expected.jpg)
 ```rust
 use bokeh_creator::{FilterType, Settings};
 Settings {
@@ -66,7 +66,7 @@ Settings {
 ```
 
 
-![4_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/4_expected.jpg) 
+![4_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/4_expected.jpg)
 ```rust
 use bokeh_creator::Settings;
 Settings {
@@ -75,7 +75,7 @@ Settings {
 };
 ```
 
-![5_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/5_expected.jpg) 
+![5_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/5_expected.jpg)
 ```rust
 use bokeh_creator::Settings;
 Settings {
@@ -84,7 +84,7 @@ Settings {
 };
 ```
 
-![6_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/6_expected.jpg) 
+![6_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/6_expected.jpg)
 ```rust
 use bokeh_creator::Settings;
 Settings {
@@ -95,14 +95,14 @@ Settings {
 };
 ```
 
-![7_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/7_expected.jpg) 
+![7_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/7_expected.jpg)
 ```rust
 use bokeh_creator::{Noise, Settings};
 Settings {
     noise: {
-        Noise { 
-            size: 0.3, 
-            intensity: 1.0, 
+        Noise {
+            size: 0.3,
+            intensity: 1.0,
             ..Default::default()
         }
     },
@@ -110,13 +110,13 @@ Settings {
 };
 ```
 
-![8_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/8_expected.jpg) 
+![8_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/8_expected.jpg)
 ```rust
 use bokeh_creator::{Noise, Settings};
 Settings {
     noise: {
-        Noise { 
-            intensity: 0.0, 
+        Noise {
+            intensity: 0.0,
             ..Default::default()
         }
     },
@@ -124,13 +124,13 @@ Settings {
 };
 ```
 
-![9_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/9_expected.jpg) 
+![9_expected.jpg](https://codeberg.org/gillesvink/bokeh-creator/raw/branch/main/test/images/9_expected.jpg)
 ```rust
 use bokeh_creator::{Noise, Settings};
 Settings {
     noise: {
-        Noise { 
-            seed: 30, 
+        Noise {
+            seed: 30,
             ..Default::default()
         }
     },

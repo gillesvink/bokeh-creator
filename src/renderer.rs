@@ -202,8 +202,8 @@ impl Renderer {
     /// Render a single pixel and include noise if the `noise` feature is enabled.
     pub fn render_pixel(&self, position: USizeVec2, channel: usize) -> f32 {
         let offset_multiplier = Vec2::new(
-            3.0 - f32::min(self.settings.aspect_ratio, 1.0) * 2.0,
-            f32::max(self.settings.aspect_ratio, 1.0) * 2.0 - 1.0,
+            3.0 - self.settings.aspect_ratio.min(1.0) * 2.0,
+            self.settings.aspect_ratio.max(1.0) * 2.0 - 1.0,
         );
         let coordinate = position.as_vec2() * offset_multiplier;
         let bokeh = self.get_bokeh_value(coordinate, channel);
@@ -254,7 +254,8 @@ impl Renderer {
     where
         T: NormalizedFloat<T> + AsPrimitive<f32> + AsPrimitive<f64> + Default,
     {
-        let resolution = USizeVec2::new(target.dim().1, target.dim().0);
+        let resolution = target.dim().1.max(target.dim().0);
+        let resolution = USizeVec2::new(resolution, resolution);
         let renderer = Self::new(settings, resolution);
         target
             .indexed_iter_mut()
@@ -386,6 +387,44 @@ mod tests {
         };
 
         let mut result = Rgba32FImage::new(256, 256);
+        Renderer::render_to_image(&mut result, settings);
+
+        if !(expected.clone().exists()) {
+            store_test_result(&result, expected);
+        }
+
+        let score = get_comparison_score(expected_image, result);
+        println!("Test got score: {}", score);
+
+        assert!(score > 0.9); // Because of compression with jpegs :)
+    }
+
+    #[rstest]
+    #[case(
+        Settings {
+            aspect_ratio: 0.5,
+            ..Default::default()
+        },
+        PathBuf::from("./test/images/10_expected.jpg"),
+        (128, 256),
+    )]
+    #[case(
+        Settings {
+            aspect_ratio: 2.0,
+            ..Default::default()
+        },
+        PathBuf::from("./test/images/11_expected.jpg"),
+        (256, 128)
+    )]
+
+    /// Test result of kernel rendering
+    fn test_kernel_odd_resolution(#[case] settings: Settings, #[case] expected: PathBuf, #[case] resolution: (u32, u32)) {
+        let expected_image = match expected.exists() {
+            true => load_test_image(expected.clone()),
+            false => Rgba32FImage::new(resolution.0, resolution.1),
+        };
+
+        let mut result = Rgba32FImage::new(resolution.0, resolution.1);
         Renderer::render_to_image(&mut result, settings);
 
         if !(expected.clone().exists()) {
