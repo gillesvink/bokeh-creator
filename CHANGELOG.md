@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.15](https://codeberg.org/gillesvink/bokeh-creator/compare/v0.1.14...v0.1.15) - 2025-12-16
+
+### Other
+
+- Merge branch 'main' of ssh://codeberg.org/gillesvink/bokeh-creator
+- Fix uneven resolution to output to correct position in image
+
 ## [0.1.14](https://codeberg.org/gillesvink/bokeh-creator/compare/v0.1.13...v0.1.14) - 2025-12-06
 
 ### Other
