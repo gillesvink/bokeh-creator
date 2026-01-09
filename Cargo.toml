@@ -1,6 +1,6 @@
 [package]
 name = "bokeh-creator"
-version = "0.1.15"
+version = "0.1.16"
 edition = "2024"
 license = "EUPL-1.2"
 readme = "README.md"
@@ -18,7 +18,6 @@ noise = ["dep:libnoise", "std"]
 image = ["dep:image", "std", "dep:image-ndarray"]
 std = ["ndarray/std", "glam/default", "renderer", "prost/std", "prost-types/std"]
 serde = ["dep:serde", "prost/derive"]
-compile-protobuf-src = ["dep:protobuf-src"]
 documented = ["dep:documented"]
 
 
@@ -43,5 +42,6 @@ image-ndarray = "0.1.2"
 rstest = ">=0.25.0, < 0.26"
 
 [build-dependencies]
+duct = "1.1.1"
 prost-build = "0.14.1"
-protobuf-src = { version = "2.1.1", optional = true }
+protobuf-src = { version = "2.1.1" }
