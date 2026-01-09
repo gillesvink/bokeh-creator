@@ -42,5 +42,6 @@ image-ndarray = "0.1.2"
 rstest = ">=0.25.0, < 0.26"
 
 [build-dependencies]
+duct = "1.1.1"
 prost-build = "0.14.1"
 protobuf-src = { version = "2.1.1" }
