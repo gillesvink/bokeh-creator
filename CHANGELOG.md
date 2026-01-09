@@ -9,10 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.17](https://codeberg.org/gillesvink/bokeh-creator/compare/v0.1.16...v0.1.17) - 2026-01-09
 
-### Other
+### Added
 
-- Merge branch 'main' of ssh://codeberg.org/gillesvink/bokeh-creator
-- add cmake and semver checks
+- Add `protobuf-vendored` feature
 
 ## [0.1.16](https://codeberg.org/gillesvink/bokeh-creator/compare/v0.1.15...v0.1.16) - 2026-01-09
 
