@@ -19,7 +19,7 @@ image = ["dep:image", "std", "dep:image-ndarray"]
 std = ["ndarray/std", "glam/default", "renderer", "prost/std", "prost-types/std"]
 serde = ["dep:serde", "prost/derive"]
 documented = ["dep:documented"]
-
+protobuf-vendored = ["dep:protobuf-src"]
 
 
 [dependencies]
@@ -42,6 +42,5 @@ image-ndarray = "0.1.2"
 rstest = ">=0.25.0, < 0.26"
 
 [build-dependencies]
-duct = "1.1.1"
 prost-build = "0.14.1"
-protobuf-src = { version = "2.1.1" }
+protobuf-src = { version = "2", optional = true}
