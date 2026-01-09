@@ -1,10 +1,8 @@
-use duct::cmd;
 use std::io::Result;
 fn main() -> Result<()> {
-    if cmd!("protoc").run().is_err() {
-        unsafe {
-            std::env::set_var("PROTOC", protobuf_src::protoc());
-        }
+    #[cfg(feature = "protobuf-vendored")]
+    unsafe {
+        std::env::set_var("PROTOC", protobuf_src::protoc());
     }
 
     let mut config = prost_build::Config::new();
