@@ -6,7 +6,7 @@ steps:
   test:
     image: rust:trixie
     commands:
-      - apt update && apt install -y protobuf-compiler
+      - apt update && apt install -y protobuf-compiler cmake
       - cargo build --release --no-default-features
       - cargo test --release
       - cargo test --features documented
