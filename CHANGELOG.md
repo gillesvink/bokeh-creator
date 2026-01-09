@@ -11,8 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Other
 
-- Install cmake for release plz
-- add duct to check if protoc is installed
 - Add protobuf compiler by default
 
 ## [0.1.15](https://codeberg.org/gillesvink/bokeh-creator/compare/v0.1.14...v0.1.15) - 2025-12-16
