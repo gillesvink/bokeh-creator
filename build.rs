@@ -1,8 +1,11 @@
-use std::io::{Result};
-
+use duct::cmd;
+use std::io::Result;
 fn main() -> Result<()> {
-    #[cfg(feature = "compile-protobuf-src")]
-    std::env::set_var("PROTOC", protobuf_src::protoc());
+    if cmd!("protoc").run().is_err() {
+        unsafe {
+            std::env::set_var("PROTOC", protobuf_src::protoc());
+        }
+    }
 
     let mut config = prost_build::Config::new();
     #[cfg(feature = "documented")]

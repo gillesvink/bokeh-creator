@@ -18,7 +18,6 @@ noise = ["dep:libnoise", "std"]
 image = ["dep:image", "std", "dep:image-ndarray"]
 std = ["ndarray/std", "glam/default", "renderer", "prost/std", "prost-types/std"]
 serde = ["dep:serde", "prost/derive"]
-compile-protobuf-src = ["dep:protobuf-src"]
 documented = ["dep:documented"]
 
 
@@ -44,4 +43,4 @@ rstest = ">=0.25.0, < 0.26"
 
 [build-dependencies]
 prost-build = "0.14.1"
-protobuf-src = { version = "2.1.1", optional = true }
+protobuf-src = { version = "2.1.1" }
